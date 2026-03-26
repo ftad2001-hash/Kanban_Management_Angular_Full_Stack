@@ -69,6 +69,13 @@ public class BoardService {
                     .build());
         }
     }
+    @Transactional
+    public Board renameBoard(Long id, String name) {
+    Board board = boardRepository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Board with id " + id + " not found"));
+    board.setName(name);
+    return boardRepository.save(board);
+    }
 
     @Transactional
     public void deleteBoard(Long id) {

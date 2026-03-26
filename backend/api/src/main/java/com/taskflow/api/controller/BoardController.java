@@ -34,7 +34,13 @@ public class BoardController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(boardService.createBoard(name));
     }
-
+    @PutMapping("/{id}")
+    public ResponseEntity<Board> renameBoard(
+        @PathVariable Long id,
+        @RequestBody Map<String, String> body) {
+        String name = body.get("name");
+        return ResponseEntity.ok(boardService.renameBoard(id, name));
+}
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteBoard(@PathVariable Long id) {
         boardService.deleteBoard(id);
