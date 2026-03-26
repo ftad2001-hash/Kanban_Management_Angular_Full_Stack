@@ -2,6 +2,7 @@ package com.taskflow.api.service;
 
 import com.taskflow.api.dto.BoardDetailDTO;
 import com.taskflow.api.dto.ColumnDTO;
+import com.taskflow.api.dto.TaskResponseDTO;
 import com.taskflow.api.entity.Board;
 import com.taskflow.api.entity.ColumnConfig;
 import com.taskflow.api.exception.ResourceNotFoundException;
@@ -17,13 +18,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BoardService {
 
-    private final BoardRepository boardRepository;
+    private final BoardRepository  boardRepository;
     private final ColumnRepository columnRepository;
 
     public List<Board> getAllBoards() {
         return boardRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
     public BoardDetailDTO getBoardById(Long id) {
         Board board = boardRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Board with id " + id + " not found"));
@@ -35,7 +37,10 @@ public class BoardService {
                         .id(col.getId())
                         .name(col.getName())
                         .position(col.getPosition())
-                        .tasks(col.getTasks())
+                        // Map each Task entity → TaskResponseDTO (no circular ref)
+                        .tasks(col.getTasks().stream()
+                                .map(TaskResponseDTO::from)
+                                .toList())
                         .build())
                 .toList();
 

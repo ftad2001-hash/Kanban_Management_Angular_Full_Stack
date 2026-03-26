@@ -1,6 +1,7 @@
 package com.taskflow.api.service;
 
 import com.taskflow.api.dto.TaskCreateDTO;
+import com.taskflow.api.dto.TaskResponseDTO;
 import com.taskflow.api.dto.TaskUpdateDTO;
 import com.taskflow.api.entity.ColumnConfig;
 import com.taskflow.api.entity.Task;
@@ -17,15 +18,19 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TaskService {
 
-    private final TaskRepository taskRepository;
+    private final TaskRepository   taskRepository;
     private final ColumnRepository columnRepository;
 
-    public List<Task> getTasksForBoard(Long boardId) {
-        return taskRepository.findByColumn_Board_Id(boardId);
+    @Transactional(readOnly = true)
+    public List<TaskResponseDTO> getTasksForBoard(Long boardId) {
+        return taskRepository.findByColumn_Board_Id(boardId)
+                .stream()
+                .map(TaskResponseDTO::from)
+                .toList();
     }
 
     @Transactional
-    public Task createTask(TaskCreateDTO dto) {
+    public TaskResponseDTO createTask(TaskCreateDTO dto) {
         ColumnConfig column = columnRepository.findById(dto.getColumnId())
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Column with id " + dto.getColumnId() + " not found"));
@@ -38,11 +43,11 @@ public class TaskService {
                 .column(column)
                 .build();
 
-        return taskRepository.save(task);
+        return TaskResponseDTO.from(taskRepository.save(task));
     }
 
     @Transactional
-    public Task updateTask(Long id, TaskUpdateDTO dto) {
+    public TaskResponseDTO updateTask(Long id, TaskUpdateDTO dto) {
         Task task = taskRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Task with id " + id + " not found"));
 
@@ -51,11 +56,11 @@ public class TaskService {
         if (dto.getPriority() != null)    task.setPriority(dto.getPriority());
         if (dto.getDueDate() != null)     task.setDueDate(dto.getDueDate());
 
-        return taskRepository.save(task);
+        return TaskResponseDTO.from(taskRepository.save(task));
     }
 
     @Transactional
-    public Task moveTask(Long taskId, Long columnId) {
+    public TaskResponseDTO moveTask(Long taskId, Long columnId) {
         Task task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new ResourceNotFoundException("Task with id " + taskId + " not found"));
 
@@ -64,7 +69,7 @@ public class TaskService {
                         "Column with id " + columnId + " not found"));
 
         task.setColumn(newColumn);
-        return taskRepository.save(task);
+        return TaskResponseDTO.from(taskRepository.save(task));
     }
 
     @Transactional

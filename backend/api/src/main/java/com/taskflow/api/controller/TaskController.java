@@ -2,8 +2,8 @@ package com.taskflow.api.controller;
 
 import com.taskflow.api.dto.TaskCreateDTO;
 import com.taskflow.api.dto.TaskMoveDTO;
+import com.taskflow.api.dto.TaskResponseDTO;
 import com.taskflow.api.dto.TaskUpdateDTO;
-import com.taskflow.api.entity.Task;
 import com.taskflow.api.service.TaskService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,25 +21,25 @@ public class TaskController {
     private final TaskService taskService;
 
     @GetMapping("/boards/{boardId}/tasks")
-    public ResponseEntity<List<Task>> getTasksForBoard(@PathVariable Long boardId) {
+    public ResponseEntity<List<TaskResponseDTO>> getTasksForBoard(@PathVariable Long boardId) {
         return ResponseEntity.ok(taskService.getTasksForBoard(boardId));
     }
 
     @PostMapping("/tasks")
-    public ResponseEntity<Task> createTask(@Valid @RequestBody TaskCreateDTO dto) {
+    public ResponseEntity<TaskResponseDTO> createTask(@Valid @RequestBody TaskCreateDTO dto) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(taskService.createTask(dto));
     }
 
     @PutMapping("/tasks/{id}")
-    public ResponseEntity<Task> updateTask(
+    public ResponseEntity<TaskResponseDTO> updateTask(
             @PathVariable Long id,
             @Valid @RequestBody TaskUpdateDTO dto) {
         return ResponseEntity.ok(taskService.updateTask(id, dto));
     }
 
     @PatchMapping("/tasks/{id}/move")
-    public ResponseEntity<Task> moveTask(
+    public ResponseEntity<TaskResponseDTO> moveTask(
             @PathVariable Long id,
             @Valid @RequestBody TaskMoveDTO dto) {
         return ResponseEntity.ok(taskService.moveTask(id, dto.getColumnId()));
