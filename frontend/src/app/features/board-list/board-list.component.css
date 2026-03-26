@@ -12,13 +12,14 @@
 }
 
 .page-title {
-  font-family: 'DM Serif Display', serif;
+  font-family: "DM Serif Display", serif;
   font-size: 28px;
   letter-spacing: -0.5px;
   color: var(--text);
   margin: 0;
 }
 
+/* Inline create-board form card */
 .create-form-card {
   background: var(--bg2);
   border: 1px solid var(--border2);
@@ -30,8 +31,14 @@
 }
 
 @keyframes slideDown {
-  from { opacity: 0; transform: translateY(-8px); }
-  to   { opacity: 1; transform: none; }
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .form-actions {
@@ -41,12 +48,14 @@
   margin-top: 16px;
 }
 
+/* Cards — auto-fill grid, creation order = DOM order */
 .boards-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 20px;
 }
 
+/* States */
 .loading-state {
   color: var(--text3);
   font-size: 14px;
@@ -64,7 +73,7 @@
 }
 
 .empty-art {
-  font-family: 'DM Serif Display', serif;
+  font-family: "DM Serif Display", serif;
   font-size: 64px;
   color: var(--bg4);
   letter-spacing: -4px;
@@ -72,7 +81,7 @@
 }
 
 .empty-title {
-  font-family: 'DM Serif Display', serif;
+  font-family: "DM Serif Display", serif;
   font-size: 22px;
   color: var(--text2);
   margin: 0;

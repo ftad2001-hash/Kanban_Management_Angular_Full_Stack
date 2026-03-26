@@ -1,18 +1,37 @@
-<div class="board-card">
+<div class="board-card" [class.active]="isActive()">
+
+  <!-- ── Name row — static or rename input ── -->
   <div class="board-card-body">
-    <div class="board-name">{{ board().name }}</div>
-    <div class="board-date">Created {{ formatDate(board().createdAt) }}</div>
+    @if (renaming()) {
+      <!-- Inline rename input -->
+      <input
+        class="rename-input"
+        [value]="renameValue()"
+        (input)="renameValue.set($any($event.target).value)"
+        (keydown)="handleKey($event)"
+        (blur)="submitRename()"
+        maxlength="100"
+        autofocus
+      />
+    } @else {
+      <div class="board-name">{{ board().name }}</div>
+    }
+    <div class="board-meta">
+      <span class="board-date">{{ formatDate(board().createdAt) }}</span>
+    </div>
   </div>
+
+  <!-- ── Actions ── -->
   <div class="board-card-footer">
     <a [routerLink]="['/boards', board().id]" class="btn btn-primary btn-sm">
       Open
     </a>
-    <button
-      class="btn btn-danger btn-sm"
-      (click)="onDelete.emit(board())"
-      title="Delete board"
-    >
+    <button class="btn btn-ghost btn-sm" (click)="startRename()" title="Rename board">
+      ✎ Rename
+    </button>
+    <button class="btn btn-danger btn-sm" (click)="onDelete.emit(board())" title="Delete board">
       Delete
     </button>
   </div>
+
 </div>

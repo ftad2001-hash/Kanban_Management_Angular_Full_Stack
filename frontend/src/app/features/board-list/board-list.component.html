@@ -6,6 +6,7 @@
     </button>
   </div>
 
+  <!-- Inline create form — slides in below header -->
   @if (showForm()) {
     <div class="create-form-card">
       <form [formGroup]="form" (ngSubmit)="createBoard()" novalidate>
@@ -20,20 +21,23 @@
             maxlength="100"
             autofocus
           />
-          @if (nameCtrl.touched && nameCtrl.hasError('required')) {
+          @if (nameCtrl.touched && nameCtrl.hasError("required")) {
             <span class="field-error">Board name is required</span>
           }
         </div>
         <div class="form-actions">
-          <button type="button" class="btn btn-ghost" (click)="cancelForm()">Cancel</button>
+          <button type="button" class="btn btn-ghost" (click)="cancelForm()">
+            Cancel
+          </button>
           <button type="submit" class="btn btn-primary" [disabled]="saving()">
-            {{ saving() ? 'Creating…' : 'Create Board' }}
+            {{ saving() ? "Creating…" : "Create Board" }}
           </button>
         </div>
       </form>
     </div>
   }
 
+  <!-- Boards grid -->
   @if (loading()) {
     <div class="loading-state">Loading boards…</div>
   } @else if (boards().length === 0) {
@@ -47,7 +51,9 @@
       @for (board of boards(); track board.id) {
         <app-board-card
           [board]="board"
+          [isActive]="board.id === lastVisitedId()"
           (onDelete)="deleteBoard($event)"
+          (onRename)="renameBoard($event)"
         />
       }
     </div>
