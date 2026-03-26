@@ -15,12 +15,12 @@ import { Priority, Column } from '../../models/board.model';
   styleUrl: './task-form.component.css',
 })
 export class TaskFormComponent implements OnInit {
-  private route       = inject(ActivatedRoute);
-  private router      = inject(Router);
-  private taskService = inject(TaskService);
+  private route        = inject(ActivatedRoute);
+  private router       = inject(Router);
+  private taskService  = inject(TaskService);
   private boardService = inject(BoardService);
-  private toast       = inject(ToastService);
-  private fb          = inject(FormBuilder);
+  private toast        = inject(ToastService);
+  private fb           = inject(FormBuilder);
 
   boardId  = signal(0);
   taskId   = signal<number | null>(null);
@@ -42,8 +42,8 @@ export class TaskFormComponent implements OnInit {
   get columnCtrl(): AbstractControl { return this.form.get('columnId')!; }
 
   ngOnInit(): void {
-    const id     = Number(this.route.snapshot.paramMap.get('id'));
-    const taskId = this.route.snapshot.paramMap.get('taskId');
+    const id       = Number(this.route.snapshot.paramMap.get('id'));
+    const taskId   = this.route.snapshot.paramMap.get('taskId');
     const colParam = this.route.snapshot.queryParamMap.get('columnId');
 
     this.boardId.set(id);
@@ -57,22 +57,23 @@ export class TaskFormComponent implements OnInit {
         this.loading.set(false);
 
         if (this.isEdit) {
-          // Find the task in the board data and pre-fill form
-          const task = board.columns.flatMap(c => c.tasks).find(t => t.id === this.taskId());
+          // Task shape is now flat: task.columnId instead of task.column.id
+          const task = board.columns
+            .flatMap(c => c.tasks)
+            .find(t => t.id === this.taskId());
+
           if (task) {
             this.form.patchValue({
               title:       task.title,
               description: task.description ?? '',
               priority:    task.priority,
               dueDate:     task.dueDate ?? '',
-              columnId:    task.column.id,
+              columnId:    task.columnId,   // ← flat field from TaskResponseDTO
             });
           }
         } else if (colParam) {
-          // Pre-select column from query param
           this.form.patchValue({ columnId: Number(colParam) });
         } else {
-          // Default to first column
           this.form.patchValue({ columnId: cols[0]?.id ?? null });
         }
       },

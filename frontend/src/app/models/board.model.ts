@@ -17,13 +17,24 @@ export interface Column {
 
 export type Priority = 'LOW' | 'MEDIUM' | 'HIGH';
 
+/**
+ * Matches TaskResponseDTO from the backend.
+ * Column info is FLAT (columnId / columnName / columnPosition)
+ * instead of a nested object — this prevents the Jackson circular
+ * reference that caused the "Unexpected non-whitespace character" error.
+ */
 export interface Task {
   id: number;
   title: string;
   description?: string;
   priority: Priority;
-  dueDate?: string;
-  column: { id: number; name: string; position: number };
+  dueDate?: string; // "YYYY-MM-DD" or absent
+
+  // Flat column fields (no nested tasks list)
+  columnId: number;
+  columnName: string;
+  columnPosition: number;
+
   createdAt: string;
   updatedAt: string;
 }
