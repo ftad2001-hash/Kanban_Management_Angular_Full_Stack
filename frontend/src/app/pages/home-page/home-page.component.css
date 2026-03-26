@@ -1,0 +1,33 @@
+.home-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  height: 100%;
+  gap: 20px;
+  text-align: center;
+  padding: 60px 40px;
+}
+
+.no-board-art {
+  font-family: 'DM Serif Display', serif;
+  font-size: 72px;
+  color: var(--bg4);
+  line-height: 1;
+  letter-spacing: -4px;
+}
+
+.no-board-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 28px;
+  letter-spacing: -0.5px;
+  color: var(--text2);
+}
+
+.no-board-sub {
+  font-size: 14px;
+  color: var(--text3);
+  max-width: 280px;
+  line-height: 1.7;
+}

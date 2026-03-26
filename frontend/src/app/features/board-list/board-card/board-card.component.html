@@ -1,0 +1,18 @@
+<div class="board-card">
+  <div class="board-card-body">
+    <div class="board-name">{{ board().name }}</div>
+    <div class="board-date">Created {{ formatDate(board().createdAt) }}</div>
+  </div>
+  <div class="board-card-footer">
+    <a [routerLink]="['/boards', board().id]" class="btn btn-primary btn-sm">
+      Open
+    </a>
+    <button
+      class="btn btn-danger btn-sm"
+      (click)="onDelete.emit(board())"
+      title="Delete board"
+    >
+      Delete
+    </button>
+  </div>
+</div>

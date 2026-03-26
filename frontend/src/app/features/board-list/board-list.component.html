@@ -1,0 +1,55 @@
+<div class="page">
+  <div class="page-header">
+    <h1 class="page-title">My Boards</h1>
+    <button class="btn btn-primary" (click)="openForm()">
+      <span>+</span> New Board
+    </button>
+  </div>
+
+  @if (showForm()) {
+    <div class="create-form-card">
+      <form [formGroup]="form" (ngSubmit)="createBoard()" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="board-name">Board Name</label>
+          <input
+            id="board-name"
+            class="form-input"
+            [class.error]="nameCtrl.invalid && nameCtrl.touched"
+            formControlName="name"
+            placeholder="e.g. Marketing Q2, Sprint 14…"
+            maxlength="100"
+            autofocus
+          />
+          @if (nameCtrl.touched && nameCtrl.hasError('required')) {
+            <span class="field-error">Board name is required</span>
+          }
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn btn-ghost" (click)="cancelForm()">Cancel</button>
+          <button type="submit" class="btn btn-primary" [disabled]="saving()">
+            {{ saving() ? 'Creating…' : 'Create Board' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  }
+
+  @if (loading()) {
+    <div class="loading-state">Loading boards…</div>
+  } @else if (boards().length === 0) {
+    <div class="empty-state">
+      <div class="empty-art">▦</div>
+      <p class="empty-title">No boards yet</p>
+      <p class="empty-sub">Create your first board to get started.</p>
+    </div>
+  } @else {
+    <div class="boards-grid">
+      @for (board of boards(); track board.id) {
+        <app-board-card
+          [board]="board"
+          (onDelete)="deleteBoard($event)"
+        />
+      }
+    </div>
+  }
+</div>

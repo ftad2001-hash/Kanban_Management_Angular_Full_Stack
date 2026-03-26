@@ -1,0 +1,76 @@
+@if (isOpen()) {
+  <div class="modal-overlay" (click)="onOverlayClick($event)">
+    <div class="modal" (keydown.enter)="save()">
+      <div class="modal-title">{{ isEditing ? 'Edit Task' : 'New Task' }}</div>
+
+      <form [formGroup]="form" (ngSubmit)="save()" novalidate>
+
+        <div class="form-group">
+          <label class="form-label" for="task-title">Title</label>
+          <input
+            id="task-title"
+            class="form-input"
+            [class.error]="titleCtrl.invalid && titleCtrl.touched"
+            formControlName="title"
+            placeholder="What needs to be done?"
+            autofocus
+          />
+          @if (titleCtrl.touched && titleCtrl.hasError('required')) {
+            <span class="field-error">Title is required</span>
+          }
+          @if (titleCtrl.touched && titleCtrl.hasError('maxlength')) {
+            <span class="field-error">Title must be 80 characters or fewer</span>
+          }
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="task-desc">Description</label>
+          <textarea
+            id="task-desc"
+            class="form-textarea"
+            formControlName="description"
+            placeholder="Optional details, context, or notes…"
+          ></textarea>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="task-priority">Priority</label>
+            <select id="task-priority" class="form-select" formControlName="priority">
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="task-due">Due Date</label>
+            <input
+              id="task-due"
+              class="form-input"
+              type="date"
+              formControlName="dueDate"
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="task-column">Column</label>
+          <select id="task-column" class="form-select" formControlName="column">
+            <option value="todo">To Do</option>
+            <option value="inprogress">In Progress</option>
+            <option value="done">Done</option>
+          </select>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-ghost" (click)="close()">Cancel</button>
+          <button type="submit" class="btn btn-primary" [disabled]="form.invalid && form.touched">
+            {{ isEditing ? 'Save Changes' : 'Add Task' }}
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+}

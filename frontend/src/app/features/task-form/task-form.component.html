@@ -1,0 +1,103 @@
+<div class="form-page">
+  <div class="form-card">
+    <div class="form-card-header">
+      <a [routerLink]="['/boards', boardId()]" class="back-link">← Back to board</a>
+      <h1 class="form-title">{{ isEdit ? 'Edit Task' : 'New Task' }}</h1>
+    </div>
+
+    @if (loading()) {
+      <div class="loading-state">Loading…</div>
+    } @else {
+      <form [formGroup]="form" (ngSubmit)="save()" novalidate>
+
+        <!-- Title -->
+        <div class="form-group">
+          <label class="form-label" for="task-title">Title <span class="required">*</span></label>
+          <input
+            id="task-title"
+            class="form-input"
+            [class.error]="titleCtrl.invalid && titleCtrl.touched"
+            formControlName="title"
+            placeholder="What needs to be done?"
+            maxlength="150"
+            autofocus
+          />
+          @if (titleCtrl.touched && titleCtrl.hasError('required')) {
+            <span class="field-error">Title is required</span>
+          }
+          @if (titleCtrl.touched && titleCtrl.hasError('maxlength')) {
+            <span class="field-error">Title must be 150 characters or fewer</span>
+          }
+        </div>
+
+        <!-- Description -->
+        <div class="form-group">
+          <label class="form-label" for="task-desc">Description</label>
+          <textarea
+            id="task-desc"
+            class="form-input form-textarea"
+            formControlName="description"
+            placeholder="Optional details, context, or notes…"
+            rows="3"
+          ></textarea>
+        </div>
+
+        <!-- Priority + Due Date row -->
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="task-priority">Priority</label>
+            <select id="task-priority" class="form-input form-select" formControlName="priority">
+              <option value="LOW">Low</option>
+              <option value="MEDIUM">Medium</option>
+              <option value="HIGH">High</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="task-due">Due Date</label>
+            <input
+              id="task-due"
+              class="form-input"
+              formControlName="dueDate"
+              appFlatpickr
+              minDate="today"
+              placeholder="YYYY-MM-DD"
+              readonly
+            />
+          </div>
+        </div>
+
+        <!-- Column -->
+        <div class="form-group">
+          <label class="form-label" for="task-column">Column <span class="required">*</span></label>
+          <select
+            id="task-column"
+            class="form-input form-select"
+            [class.error]="columnCtrl.invalid && columnCtrl.touched"
+            formControlName="columnId"
+          >
+            @for (col of columns(); track col.id) {
+              <option [value]="col.id">{{ col.name }}</option>
+            }
+          </select>
+          @if (columnCtrl.touched && columnCtrl.hasError('required')) {
+            <span class="field-error">Column is required</span>
+          }
+        </div>
+
+        <!-- Actions -->
+        <div class="form-actions">
+          <a [routerLink]="['/boards', boardId()]" class="btn btn-ghost">Cancel</a>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="saving()"
+          >
+            {{ saving() ? (isEdit ? 'Saving…' : 'Creating…') : (isEdit ? 'Save Changes' : 'Create Task') }}
+          </button>
+        </div>
+
+      </form>
+    }
+  </div>
+</div>

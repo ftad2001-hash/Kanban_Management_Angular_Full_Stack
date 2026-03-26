@@ -1,0 +1,48 @@
+@if (isOpen()) {
+  <div class="modal-overlay" (click)="onOverlayClick($event)">
+    <div class="modal">
+      <div class="modal-title">New Board</div>
+
+      <form [formGroup]="form" (ngSubmit)="save()" novalidate>
+
+        <div class="form-group">
+          <label class="form-label" for="board-name">Board Name</label>
+          <input
+            id="board-name"
+            class="form-input"
+            [class.error]="nameCtrl.invalid && nameCtrl.touched"
+            formControlName="name"
+            placeholder="e.g. Marketing Q2, Sprint 14…"
+            autofocus
+          />
+          @if (nameCtrl.touched && nameCtrl.hasError('required')) {
+            <span class="field-error">Board name is required</span>
+          }
+          @if (nameCtrl.touched && nameCtrl.hasError('maxlength')) {
+            <span class="field-error">Name must be 40 characters or fewer</span>
+          }
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Color</label>
+          <div class="color-picker">
+            @for (color of colors; track color) {
+              <div
+                class="color-swatch"
+                [class.selected]="color === selectedColor()"
+                [style.background]="color"
+                (click)="pickColor(color)"
+              ></div>
+            }
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-ghost" (click)="close()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Create Board</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+}

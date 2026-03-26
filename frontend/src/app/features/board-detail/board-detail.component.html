@@ -1,0 +1,27 @@
+<div class="board-page">
+  @if (loading()) {
+    <div class="loading-state">Loading board…</div>
+  } @else if (board(); as b) {
+    <div class="board-toolbar">
+      <div class="board-title-area">
+        <a routerLink="/boards" class="back-link">← Boards</a>
+        <h1 class="board-title">{{ b.name }}</h1>
+      </div>
+      <button class="btn btn-danger-ghost btn-sm" (click)="deleteBoard()">
+        Delete Board
+      </button>
+    </div>
+
+    <div class="kanban">
+      @for (col of b.columns; track col.id) {
+        <app-column
+          [column]="col"
+          [boardId]="boardId"
+          [connectedTo]="connectedListIds"
+          (taskDropped)="onTaskDrop($event.event, $event.column)"
+          (taskDeleted)="deleteTask($event)"
+        />
+      }
+    </div>
+  }
+</div>

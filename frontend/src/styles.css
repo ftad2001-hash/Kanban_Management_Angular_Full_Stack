@@ -1,0 +1,186 @@
+/* ── Google Fonts ── */
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Syne:wght@400;500;600;700&display=swap');
+
+/* ── CSS Custom Properties ── */
+:root {
+  --bg:          #0e0e10;
+  --bg2:         #17171a;
+  --bg3:         #1e1e22;
+  --bg4:         #26262c;
+  --border:      rgba(255, 255, 255, 0.07);
+  --border2:     rgba(255, 255, 255, 0.13);
+  --text:        #f0ede8;
+  --text2:       #9a9690;
+  --text3:       #5a5754;
+  --accent:      #c8f060;
+  --accent2:     #a8d840;
+  --accent-dim:  rgba(200, 240, 96, 0.12);
+  --accent-glow: rgba(200, 240, 96, 0.08);
+  --todo:        #4a7cff;
+  --prog:        #f4a030;
+  --done:        #50c878;
+  --danger:      #ff5555;
+  --radius:      10px;
+  --radius-lg:   14px;
+  --transition:  0.18s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+
+body {
+  font-family: 'Syne', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Scrollbars ── */
+::-webkit-scrollbar        { width: 5px; height: 5px; }
+::-webkit-scrollbar-track  { background: transparent; }
+::-webkit-scrollbar-thumb  { background: var(--bg4); border-radius: 10px; }
+
+/* ── Shared Buttons ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 16px;
+  border-radius: var(--radius);
+  font-family: 'Syne', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+  border: 1px solid transparent;
+  white-space: nowrap;
+  text-decoration: none;
+  line-height: 1;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #0e0e10;
+  border-color: var(--accent);
+}
+.btn-primary:hover  { background: var(--accent2); transform: translateY(-1px); }
+.btn-primary:active { transform: none; }
+.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text2);
+  border-color: var(--border2);
+}
+.btn-ghost:hover { background: var(--bg3); color: var(--text); }
+
+.btn-sm { padding: 6px 12px; font-size: 12px; }
+
+/* ── Shared Forms ── */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--text3);
+}
+
+.form-input {
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-family: 'Syne', sans-serif;
+  font-size: 14px;
+  padding: 10px 14px;
+  transition: border-color var(--transition);
+  outline: none;
+  width: 100%;
+}
+
+.form-input:focus  { border-color: var(--accent); }
+.form-input.error  { border-color: var(--danger); }
+.form-input::placeholder { color: var(--text3); }
+
+.field-error {
+  font-size: 11px;
+  color: var(--danger);
+  margin-top: 2px;
+}
+
+/* ── Flatpickr dark theme overrides ── */
+.flatpickr-calendar {
+  background: var(--bg2) !important;
+  border: 1px solid var(--border2) !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5) !important;
+}
+
+.flatpickr-months,
+.flatpickr-weekdays,
+.flatpickr-weekday {
+  background: var(--bg2) !important;
+  color: var(--text2) !important;
+}
+
+.flatpickr-day {
+  color: var(--text) !important;
+}
+
+.flatpickr-day:hover {
+  background: var(--accent-dim) !important;
+  color: var(--accent) !important;
+  border-color: transparent !important;
+}
+
+.flatpickr-day.selected,
+.flatpickr-day.selected:hover {
+  background: var(--accent) !important;
+  color: #0e0e10 !important;
+  border-color: var(--accent) !important;
+}
+
+.flatpickr-day.flatpickr-disabled {
+  color: var(--text3) !important;
+}
+
+.flatpickr-current-month input.cur-year,
+.flatpickr-current-month .flatpickr-monthDropdown-months {
+  color: var(--text) !important;
+  background: var(--bg2) !important;
+}
+
+.flatpickr-prev-month svg,
+.flatpickr-next-month svg {
+  fill: var(--text2) !important;
+}
+
+/* ── ngx-toastr custom overrides ── */
+.toast-bottom-right { bottom: 24px !important; right: 24px !important; }
+
+.toast-success {
+  background-color: var(--bg3) !important;
+  border-left: 3px solid var(--done) !important;
+  color: var(--text) !important;
+}
+
+.toast-error {
+  background-color: var(--bg3) !important;
+  border-left: 3px solid var(--danger) !important;
+  color: var(--text) !important;
+}
+
+.toast-container .ngx-toastr {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.4) !important;
+  border-radius: var(--radius) !important;
+  font-family: 'Syne', sans-serif !important;
+  font-size: 13px !important;
+}

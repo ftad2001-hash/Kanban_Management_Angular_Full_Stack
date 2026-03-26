@@ -1,0 +1,13 @@
+<header class="header">
+  <a class="logo" routerLink="/">
+    <div class="logo-dot"></div>
+    TaskFlow
+  </a>
+  <div class="header-right">
+    <span class="header-meta">
+      {{ boardCount() }} board{{ boardCount() !== 1 ? 's' : '' }}
+      &middot;
+      {{ taskCount() }} task{{ taskCount() !== 1 ? 's' : '' }}
+    </span>
+  </div>
+</header>

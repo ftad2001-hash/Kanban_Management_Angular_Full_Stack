@@ -1,0 +1,42 @@
+<div class="column">
+  <div class="column-header">
+    <div class="column-title">
+      <div class="col-indicator" [style.background]="column().color"></div>
+      <span [style.color]="column().color">{{ column().label }}</span>
+    </div>
+    <span class="column-count">{{ tasks().length }}</span>
+  </div>
+
+  <div
+    class="column-body"
+    [class.drag-over]="isDragOver()"
+    (dragover)="onDragOver($event)"
+    (dragleave)="onDragLeave($event)"
+    (drop)="onDrop($event)"
+  >
+    @if (tasks().length === 0) {
+      <div class="empty-col">
+        <div class="empty-dot-ring" [style.background]="column().dimColor">
+          <div class="empty-dot" [style.background]="column().color"></div>
+        </div>
+        <div class="empty-label">No tasks</div>
+      </div>
+    }
+
+    @for (task of tasks(); track task.id) {
+      <app-task-card
+        [task]="task"
+        [columnId]="column().id"
+        (edit)="editTask.emit($event)"
+        (delete)="deleteTask.emit($event)"
+        (move)="moveTask.emit($event)"
+      />
+    }
+  </div>
+
+  <div class="column-footer">
+    <button class="add-task-btn" (click)="addTask.emit(column().id)">
+      <span>+</span> Add task
+    </button>
+  </div>
+</div>

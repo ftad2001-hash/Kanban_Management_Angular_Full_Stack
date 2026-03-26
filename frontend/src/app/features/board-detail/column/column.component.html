@@ -1,0 +1,51 @@
+<div class="column">
+  <div class="column-header">
+    <div class="column-title-row">
+      <div class="col-indicator" [style.background]="colColor"></div>
+      <span class="col-name" [style.color]="colColor">{{ column().name }}</span>
+      @if (column().tasks.length > 0) {
+        <span class="task-count">{{ column().tasks.length }}</span>
+      }
+    </div>
+  </div>
+
+  <div
+    class="column-body"
+    cdkDropList
+    [id]="dropListId"
+    [cdkDropListData]="column().tasks"
+    [cdkDropListConnectedTo]="connectedTo()"
+    (cdkDropListDropped)="onDrop($event)"
+  >
+    @if (column().tasks.length === 0) {
+      <div class="empty-col">
+        <div class="empty-dot-ring" [style.background]="colDimColor">
+          <div class="empty-dot" [style.background]="colColor"></div>
+        </div>
+        <span class="empty-label">No tasks</span>
+      </div>
+    }
+
+    @for (task of column().tasks; track task.id) {
+      <app-task-card
+        cdkDrag
+        [cdkDragData]="task"
+        [task]="task"
+        [boardId]="boardId()"
+        (taskDeleted)="taskDeleted.emit($event)"
+      >
+        <div class="drag-placeholder" *cdkDragPlaceholder></div>
+      </app-task-card>
+    }
+  </div>
+
+  <div class="column-footer">
+    <a
+      class="add-task-btn"
+      [routerLink]="['/boards', boardId(), 'tasks', 'new']"
+      [queryParams]="{ columnId: column().id }"
+    >
+      <span>+</span> Add task
+    </a>
+  </div>
+</div>

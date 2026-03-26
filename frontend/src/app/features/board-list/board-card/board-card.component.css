@@ -1,0 +1,45 @@
+.board-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  transition: all var(--transition);
+}
+
+.board-card:hover {
+  border-color: var(--border2);
+  transform: translateY(-2px);
+}
+
+.board-card-body { flex: 1; }
+
+.board-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+
+.board-date {
+  font-size: 12px;
+  color: var(--text3);
+  font-family: 'DM Mono', monospace;
+}
+
+.board-card-footer {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-danger {
+  background: transparent;
+  color: var(--danger);
+  border: 1px solid rgba(255, 85, 85, 0.35);
+}
+
+.btn-danger:hover {
+  background: rgba(255, 85, 85, 0.12);
+}

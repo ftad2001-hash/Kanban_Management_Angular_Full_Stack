@@ -1,0 +1,121 @@
+.task-card {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  cursor: grab;
+  transition: all var(--transition);
+  position: relative;
+  user-select: none;
+}
+
+.task-card:hover {
+  border-color: var(--border2);
+  transform: translateY(-1px);
+  background: var(--bg4);
+}
+
+.task-card:hover .task-actions { opacity: 1; }
+.task-card:active { cursor: grabbing; }
+.task-card.dragging { opacity: 0.4; transform: scale(0.97); }
+
+.task-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.task-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.4;
+  flex: 1;
+}
+
+.task-actions {
+  display: flex;
+  gap: 4px;
+  opacity: 0;
+  transition: opacity var(--transition);
+  flex-shrink: 0;
+}
+
+.task-action-btn {
+  background: none;
+  border: none;
+  color: var(--text3);
+  cursor: pointer;
+  padding: 2px 5px;
+  border-radius: 4px;
+  font-size: 12px;
+  transition: all var(--transition);
+}
+
+.task-action-btn:hover { background: var(--bg); color: var(--text2); }
+.task-action-btn.del:hover { color: var(--danger); background: rgba(255, 85, 85, 0.12); }
+
+.task-desc {
+  font-size: 12px;
+  color: var(--text3);
+  margin-bottom: 10px;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.task-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.task-footer-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.priority-badge {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  padding: 3px 8px;
+  border-radius: 20px;
+  text-transform: uppercase;
+}
+
+.priority-low    { background: rgba(80, 200, 120, 0.15); color: var(--done); }
+.priority-medium { background: rgba(244, 160, 48, 0.15); color: var(--prog); }
+.priority-high   { background: rgba(255, 85, 85, 0.15);  color: var(--danger); }
+
+.due-date { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text3); }
+.due-date.overdue { color: var(--danger); }
+.due-date.soon    { color: var(--prog); }
+
+.move-btns { display: flex; gap: 3px; }
+
+.move-btn {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text3);
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-family: 'DM Mono', monospace;
+  font-weight: 500;
+  transition: all var(--transition);
+  white-space: nowrap;
+}
+
+.move-btn:hover {
+  color: var(--text);
+  border-color: var(--border2);
+  background: var(--bg3);
+}

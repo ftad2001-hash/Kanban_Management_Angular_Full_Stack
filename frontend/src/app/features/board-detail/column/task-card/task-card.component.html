@@ -1,0 +1,39 @@
+<div class="task-card">
+  <div class="task-card-header">
+    <div class="task-title">{{ task().title }}</div>
+    <div class="task-header-right">
+      <span class="priority-badge" [class]="priorityClass">
+        {{ task().priority }}
+      </span>
+    </div>
+  </div>
+
+  @if (task().description) {
+    <div class="task-desc">{{ task().description }}</div>
+  }
+
+  <div class="task-footer">
+    @if (dueInfo(); as info) {
+      <span
+        class="due-date"
+        [class.overdue]="info.overdue"
+        [class.soon]="info.soon && !info.overdue"
+      >
+        ◷ {{ info.label }}
+      </span>
+    }
+
+    <div class="task-actions">
+      <a
+        class="task-action-btn"
+        [routerLink]="['/boards', boardId(), 'tasks', task().id, 'edit']"
+        title="Edit task"
+      >✎</a>
+      <button
+        class="task-action-btn del"
+        (click)="taskDeleted.emit(task().id)"
+        title="Delete task"
+      >✕</button>
+    </div>
+  </div>
+</div>

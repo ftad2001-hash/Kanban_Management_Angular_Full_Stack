@@ -1,0 +1,30 @@
+@if (board(); as b) {
+  <div class="board-view">
+    <div class="main-toolbar">
+      <div class="board-title-area">
+        <div class="board-title-color" [style.background]="b.color"></div>
+        <div class="board-title-text">{{ b.name }}</div>
+        <div class="board-meta">{{ doneCount() }}/{{ b.tasks.length }} done</div>
+      </div>
+      <button class="btn btn-primary btn-sm" (click)="openAddTask('todo')">
+        <span>+</span> Add Task
+      </button>
+    </div>
+
+    <div class="kanban">
+      @for (col of columns; track col.id) {
+        <app-kanban-column
+          [column]="col"
+          [tasks]="tasksForColumn(col.id)"
+          (addTask)="openAddTask($event)"
+          (editTask)="openEditTask($event)"
+          (deleteTask)="deleteTask($event)"
+          (moveTask)="moveTask($event)"
+          (dropTask)="dropTask($event)"
+        />
+      }
+    </div>
+  </div>
+}
+
+<app-task-modal />
