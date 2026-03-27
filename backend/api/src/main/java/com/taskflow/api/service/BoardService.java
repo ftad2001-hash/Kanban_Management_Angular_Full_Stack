@@ -1,6 +1,7 @@
 package com.taskflow.api.service;
 
 import com.taskflow.api.dto.BoardDetailDTO;
+import com.taskflow.api.dto.BoardSummaryDTO;
 import com.taskflow.api.dto.ColumnDTO;
 import com.taskflow.api.dto.TaskResponseDTO;
 import com.taskflow.api.entity.Board;
@@ -21,8 +22,14 @@ public class BoardService {
     private final BoardRepository  boardRepository;
     private final ColumnRepository columnRepository;
 
-    public List<Board> getAllBoards() {
-        return boardRepository.findAll();
+    public List<BoardSummaryDTO> getAllBoards() {
+        return boardRepository.findAll().stream()
+            .map(b -> BoardSummaryDTO.builder()
+                .id(b.getId())
+                .name(b.getName())
+                .createdAt(b.getCreatedAt())
+                .build())
+            .toList();
     }
 
     @Transactional(readOnly = true)

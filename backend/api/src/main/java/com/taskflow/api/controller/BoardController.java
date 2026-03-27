@@ -1,6 +1,7 @@
 package com.taskflow.api.controller;
 
 import com.taskflow.api.dto.BoardDetailDTO;
+import com.taskflow.api.dto.BoardSummaryDTO;
 import com.taskflow.api.entity.Board;
 import com.taskflow.api.service.BoardService;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,7 @@ public class BoardController {
     private final BoardService boardService;
 
     @GetMapping
-    public ResponseEntity<List<Board>> getAllBoards() {
+    public ResponseEntity<List<BoardSummaryDTO>> getAllBoards() {
         return ResponseEntity.ok(boardService.getAllBoards());
     }
 
